@@ -65,7 +65,7 @@ var bookMarkService = function(dialogService, serRestApi, $state) {
     }
 
     bookMarkServiceRef.getFolders = function(vdo) {
-        privateStore.data = privateStore.data ? privateStore.data : [{
+        privateStore.data = privateStore.data ? privateStore.data : {
             "boardName": "Todo",
             "boardID": "101",
             "lists": [{
@@ -80,24 +80,8 @@ var bookMarkService = function(dialogService, serRestApi, $state) {
                     "cardID": 4
                 }]
             }]
-        }, {
-            "boardName": "Todo",
-            "boardID": "102",
-            "lists": [{
-                "listName": "quick",
-                "listID": 2,
-                "cards": [{
-                    "cardName": "Do work",
-                    "cardDesc": "asdasf",
-                    "cardID": 1
-                }, {
-                    "cardName": "asfdasfasf",
-                    "cardDesc": "asdasf",
-                    "cardID": 2
-                }]
-            }]
-        }];
-        vdo.boards = privateStore.data
+        };
+        vdo.board = privateStore.data
             /*serRestApi.getApi('/api/bookMarks', '').then(function(response) {
                 vdo.lists = [{cardName:"asfdasfasf"},{cardName:"asfdasfasf"}];
             },defaultErrorHandler)*/

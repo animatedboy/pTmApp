@@ -1,6 +1,6 @@
 // create our angular app and inject ngAnimate and ui-router 
 // =============================================================================
-var pinItApp = angular.module('pinitapp', ['ngAnimate', 'ui.router', 'ui.bootstrap','ngMessages']);
+var pinItApp = angular.module('pinitapp', ['ngAnimate', 'ui.router', 'ui.bootstrap','ngMessages','dndLists']);
 
 // configuring our routes 
 // =============================================================================
