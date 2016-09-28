@@ -4,29 +4,44 @@ var bookMarkFolderController = function($scope,bookMarkService) {
         _getFolders($scope.vdo);
     };
 
-    var _addFolder = function(vdo) {
-        bookMarkService.addFolder(vdo);
+    var _addBoard = function(vdo) {
+        bookMarkService.addBoard(vdo);
     };
 
     var _getFolders = function(vdo) {
         bookMarkService.getFolders(vdo);
     };
 
-    var _deleteFolder = function(vdo,folder) {
-        bookMarkService.deleteFolder(vdo,folder);
+    var _deleteBoard = function(vdo,index) {
+        bookMarkService.deleteBoard(vdo,index);
     };
 
-    var _getFolderData = function(vdo) {
-        bookMarkService.getFolderData(vdo);
+
+    var _addList =function (board) {
+        bookMarkService.addList(board);
+    };
+
+     var _deleteList =function (board,index) {
+        bookMarkService.deleteList(board,index);
+    };
+
+    var _addCard = function (list) {
+       bookMarkService.addCard(list);
+    };
+
+    var _deleteCard = function(list,index) {
+        bookMarkService.deleteCard(list,index);
     }
 
-
     $scope.vdo = {
-        addFolder: _addFolder,
+        addBoard: _addBoard,
         getFolders: _getFolders,
-        deleteFolder: _deleteFolder,
-        folderDatas: [],
-        getFolderData: _getFolderData
+        deleteBoard: _deleteBoard,
+        boards: [],
+        addList:_addList,
+        deleteList:_deleteList,
+        addCard:_addCard,
+        deleteCard:_deleteCard
     }
 
     init();

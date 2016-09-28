@@ -9,24 +9,24 @@ pinItApp.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
 
     // route to show our basic form (/form)
-        .state('board', {
-        url: '/board',
-        templateUrl: 'partials/folder.html',
+        .state('home', {
+        url: '/home',
+        templateUrl: 'partials/home.html',
         controller: 'bookMarkFolderController'
     })
 
     // nested states 
     // each of these sections will have their own view
     // url will be nested (/appName/step1)
-    .state('lists', {
-        url: '/board/list/:listID',
-        templateUrl: 'partials/bookMark.html',
+    .state('board', {
+        url: '/board/:boardID',
+        templateUrl: 'partials/board.html',
         controller: 'bookMarkController'
     })
 
     // catch all route
     // send users to the appName page 
-    $urlRouterProvider.otherwise('/board');
+    $urlRouterProvider.otherwise('/home');
 });
 // our controller for the appName
 // =============================================================================

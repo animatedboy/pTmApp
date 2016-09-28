@@ -1,11 +1,11 @@
 <div class="modal-header">
-    <h3 class="modal-title">Add Folder</h3>
+    <h3 class="modal-title">Add Board</h3>
 </div>
 <div class="modal-body">
-    <form name="addFolderName">
-        <label for="folderName">Folder Name(14 Characters)<i class="star-require">*</i></label>
-        <input type="text" class="form-control" placeholder="Folder Name" name="folderName" ng-model="vdo.folderName" ng-maxlength="14" required>
-        <div ng-messages="addFolderName.folderName.$error" ng-if="addFolderName.folderName.$touched">
+    <form name="addBoardName">
+        <label for="boardName">Board Name(14 Characters)<i class="star-require">*</i></label>
+        <input type="text" class="form-control" placeholder="Folder Name" name="boardName" ng-model="vdo.boardName" ng-maxlength="14" required>
+        <div ng-messages="addBoardName.boardName.$error" ng-if="addBoardName.boardName.$touched">
             <small class="warning-text" ng-message="maxlength">folder name is too long.</small>
             <small class="warning-text" ng-message="required">folder name is required.</small>
         </div>
