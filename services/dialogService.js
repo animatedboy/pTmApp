@@ -92,11 +92,11 @@ var dialogService = function($modal) {
                     callback(data);
                 },
                 function(data) {
-                    callback(data);
+                    //callback(data);
                 });
             return dialog;
         }
     };
 };
 
-angular.module('pinitapp').service('dialogService', [ '$uibModal', dialogService]);
+angular.module('pTmApp').service('dialogService', [ '$uibModal', dialogService]);

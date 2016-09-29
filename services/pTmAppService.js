@@ -9,13 +9,15 @@ var addBoardController = ['$scope', 'data', '$uibModalInstance', function($scope
     };
 
     $scope.close = function() {
-        $uibModalInstance.dismiss()
+        $uibModalInstance.dismiss("")
     }
 }];
 
 var addListController = ['$scope', 'data', '$uibModalInstance', function($scope, data, $uibModalInstance) {
-    $scope.vdo = data.board;
-    $scope.vdo.listName = '';
+    $scope.vdo = data;
+    $scope.vdo.editList = {
+        listName:data.list.listName?data.list.listName:""
+    };
 
     $scope.ok = function(vdo) {
         if ($scope.addListForm.$valid) {
@@ -29,9 +31,12 @@ var addListController = ['$scope', 'data', '$uibModalInstance', function($scope,
 }];
 
 var addCardController = ['$scope', 'data', '$uibModalInstance', function($scope, data, $uibModalInstance) {
-    $scope.vdo = data.list;
-    $scope.vdo.cardName = '';
-    $scope.vdo.cardDesc = "";
+    $scope.vdo = data;
+    var card = angular.copy(data.card)
+    $scope.vdo.editCard = {
+        cardName: data.isEdit ? card.cardName : "",
+        cardDesc: data.isEdit ? card.cardDesc : ""
+    }
 
     $scope.ok = function(vdo) {
         if ($scope.addCardForm.$valid) {
@@ -45,8 +50,8 @@ var addCardController = ['$scope', 'data', '$uibModalInstance', function($scope,
 }];
 
 
-var bookMarkService = function(dialogService, serRestApi, $state) {
-    var bookMarkServiceRef = this,
+var pTmAppService = function(dialogService,$state) {
+    var pTmAppServiceRef = this,
         privateStore = {};
 
     var Board = function() {
@@ -64,7 +69,7 @@ var bookMarkService = function(dialogService, serRestApi, $state) {
         this.cardDesc = "";
     }
 
-    bookMarkServiceRef.getFolders = function(vdo) {
+    pTmAppServiceRef.getFolders = function(vdo) {
         privateStore.data = privateStore.data ? privateStore.data : {
             "boardName": "Todo",
             "boardID": "101",
@@ -82,9 +87,6 @@ var bookMarkService = function(dialogService, serRestApi, $state) {
             }]
         };
         vdo.board = privateStore.data
-            /*serRestApi.getApi('/api/bookMarks', '').then(function(response) {
-                vdo.lists = [{cardName:"asfdasfasf"},{cardName:"asfdasfasf"}];
-            },defaultErrorHandler)*/
     };
 
     var addBoardCallBack = function(data) {
@@ -93,7 +95,7 @@ var bookMarkService = function(dialogService, serRestApi, $state) {
         data.boards.push(board);
     };
 
-    bookMarkServiceRef.addBoard = function(vdo) {
+    pTmAppServiceRef.addBoard = function(vdo) {
         dialogService.showCustomDialog('../partials/addBoard.html', addBoardController, {
             data: {
                 vdo: vdo
@@ -102,35 +104,66 @@ var bookMarkService = function(dialogService, serRestApi, $state) {
     };
 
     var addListCallBack = function(data) {
-        var list = new List();
-        list.listName = data.listName;
-        data.lists.push(list);
+        if (data.isEdit) {
+             angular.extend(data.list, data.editList);
+        } else {
+            var list = new List();
+            list.listName = data.editList.listName;
+            data.board.lists.push(list);
+        }
     };
 
-    bookMarkServiceRef.addList = function(board) {
+    pTmAppServiceRef.addList = function(board) {
         dialogService.showCustomDialog('../partials/addList.html', addListController, {
             data: {
-                board: board
+                board: board,
+                list: {},
+                isEdit: false
+            }
+        }, addListCallBack, 'sm');
+    };
+
+    pTmAppServiceRef.editList = function(list) {
+        dialogService.showCustomDialog('../partials/addList.html', addListController, {
+            data: {
+                board: {},
+                list: list,
+                isEdit: true
             }
         }, addListCallBack, 'sm');
     };
 
     var addCardCallBack = function(data) {
-        var card = new Card();
-        card.cardName = data.cardName;
-        card.cardDesc = data.cardDesc;
-        data.cards.push(card);
+        if (data.isEdit) {
+            angular.extend(data.card, data.editCard);
+        } else {
+            var card = new Card();
+            card = data.editCard
+            data.list.cards.push(card);
+        }
     };
 
-    bookMarkServiceRef.addCard = function(list) {
+    pTmAppServiceRef.addCard = function(list) {
         dialogService.showCustomDialog('../partials/addCard.html', addCardController, {
             data: {
-                list: list
+                list: list,
+                card: {},
+                isEdit: false
             }
         }, addCardCallBack, 'sm');
     };
 
-    bookMarkServiceRef.deleteBoard = function(vdo, index) {
+    pTmAppServiceRef.editCard = function(card) {
+        dialogService.showCustomDialog('../partials/addCard.html', addCardController, {
+            data: {
+                list: {},
+                card: card,
+                isEdit: true
+            }
+        }, addCardCallBack, 'sm');
+    }
+
+    pTmAppServiceRef.deleteBoard = function(vdo, index) {
         dialogService.confirm('info', 'Warning!', 'Are you sure you want to delete this board?', true).result.then(function(value) {
             if (value) {
                 vdo.boards.splice(index, 1)
@@ -138,7 +171,7 @@ var bookMarkService = function(dialogService, serRestApi, $state) {
         });
     };
 
-    bookMarkServiceRef.deleteList = function(board, index) {
+    pTmAppServiceRef.deleteList = function(board, index) {
         dialogService.confirm('info', 'Warning!', 'Are you sure you want to delete this list?', true).result.then(function(value) {
             if (value) {
                 board.lists.splice(index, 1)
@@ -146,7 +179,7 @@ var bookMarkService = function(dialogService, serRestApi, $state) {
         });
     }
 
-     bookMarkServiceRef.deleteCard = function(list, index) {
+    pTmAppServiceRef.deleteCard = function(list, index) {
         dialogService.confirm('info', 'Warning!', 'Are you sure you want to delete this card?', true).result.then(function(value) {
             if (value) {
                 list.cards.splice(index, 1)
@@ -154,7 +187,7 @@ var bookMarkService = function(dialogService, serRestApi, $state) {
         });
     };
 
-    bookMarkServiceRef.backToFolders = function() {
+    pTmAppServiceRef.backToFolders = function() {
         $state.go('folders');
     }
 
@@ -163,4 +196,4 @@ var bookMarkService = function(dialogService, serRestApi, $state) {
 
 
 
-angular.module('pinitapp').service('bookMarkService', ['dialogService', 'serRestApi', '$state', bookMarkService])
+angular.module('pTmApp').service('pTmAppService', ['dialogService','$state', pTmAppService])

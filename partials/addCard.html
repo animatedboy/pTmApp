@@ -1,11 +1,11 @@
 <form name="addCardForm">
     <div class="modal-header">
-        <h3 class="modal-title">Add Card</h3>
+        <h3 class="modal-title"><span ng-if="vdo.isEdit">Edit </span><span ng-if="!vdo.isEdit">Add</span>Card</h3>
     </div>
     <div class="modal-body">
         <div>
             <label for="cardName">Card Name <i class="star-require">*</i></label>
-            <input type="text" class="form-control" placeholder="Card Name" name="cardName" ng-model="vdo.cardName" required ng-maxlength="14">
+            <input type="text" class="form-control" placeholder="Card Name" name="cardName" ng-model="vdo.editCard.cardName" required ng-maxlength="14">
             <div ng-messages="addCardForm.cardName.$error" ng-if="addCardForm.cardName.$touched">
                 <small class="warning-text" ng-message="maxlength">Card name is too long than 14 Characters.</small>
                 <small class="warning-text" ng-message="required">Card name is required.</small>
@@ -13,7 +13,7 @@
         </div>
         <div>
             <label for="cardDesc">Card Description <i class="star-require">*</i></label>
-            <input type="text" class="form-control" placeholder="Card Description" name="cardDesc" ng-model="vdo.cardDesc" required ng-maxlength="20">
+            <input type="text" class="form-control" placeholder="Card Description" name="cardDesc" ng-model="vdo.editCard.cardDesc" required ng-maxlength="20">
             <div ng-messages="addCardForm.cardDesc.$error" ng-if="addCardForm.cardDesc.$touched">
                 <small class="warning-text" ng-message="maxlength">Card description is too long than 14 Characters.</small>
                 <small class="warning-text" ng-message="required">Card description is required.</small>

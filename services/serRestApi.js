@@ -45,4 +45,4 @@ var serRestApi = function($http, dialogService, $location) {
 
 
 
-angular.module('pinitapp').service('serRestApi', ['$http', 'dialogService','$q', serRestApi])
+angular.module('pTmApp').service('serRestApi', ['$http', 'dialogService','$q', serRestApi])

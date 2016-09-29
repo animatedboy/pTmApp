@@ -1,8 +1,9 @@
-/
 <form class="container">
     <div class="row home-container">
-        <button type="button" class=" col-xs-1  btn btn-primary pull-right" ng-click="vdo.addBoard(vdo)">+Add Board</button>
-        <div class="panel" >
+        <!--  <div class="row">
+            <button type="button" class=" col-xs-1  btn btn-primary pull-right" ng-click="vdo.addBoard(vdo)">+Add Board</button>
+        </div> -->
+        <div class="panel">
             <div class="panel-body">
                 <h3 class="col-xs-7">{{vdo.board.boardName}}-Board</h3>
                 <div class="col-xs-5 margin-tp-1">
@@ -12,22 +13,20 @@
                 <div class="col-xs-12">
                     <div class="list-border col-xs-12" ng-repeat='list in vdo.board.lists'>
                         <div>
-                        </div dnd-list="list.card">
-                        <div class="margin-tp-2">
-                            <span><h3>{{list.listName}}</h3><span>
-                            <button type="button" class="list-bt btn btn-primary pull-right" ng-click="vdo.deleteList(vdo.board,$index)"> <small>-Delete List</small></button>
-                            <button type="button" class="list-bt  btn btn-primary pull-right" ng-click="vdo.addCard(list)"> <small>+Add card</small></button>
                         </div>
-                        <ul dnd-list="list.cards" class="padding-1">
-                        <li class="col-xs-2 text-center folder noPadding" ng-repeat="card in list.cards"   dnd-draggable="card"
-                        dnd-moved="list.cards.splice($index, 1)"
-                        dnd-effect-allowed="move">
-                            <h4 class="card-header">{{card.cardName}}</h4>
-                            <p>
-                                <small class="small-class">Description : {{card.cardDesc}}</small>
-                            </p>
-                             <a ng-click="vdo.deleteCard(list,$index);$event.stopPropagation();$event.preventDefault()"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                        </li>
+                        <div class="margin-bt-1 col-xs-12">
+                            <span class="col-xs-8 pointer" ng-click="vdo.editList(list)"><h3><i class="fa fa-pencil" aria-hidden="true"></i> {{list.listName}}</h3> </span>
+                            <button type="button" class="list-bt btn btn-primary pull-right" ng-click="vdo.deleteList(vdo.board,$index)" title="Delete List"> <small><i class="fa fa-eraser" aria-hidden="true"></i> List</small></button>
+                            <button type="button" class="list-bt  btn btn-primary pull-right" ng-click="vdo.addCard(list)" title="Add Card"> <small><i class="fa fa-plus" aria-hidden="true"></i> card</small></button>
+                        </div>
+                        <div dnd-list="list.cards" class="ptmdndList col-xs-12">
+                            <div class="col-xs-2 text-center folder noPadding" ng-repeat="card in list.cards" dnd-draggable="card" dnd-moved="list.cards.splice($index, 1)" dnd-effect-allowed="move">
+                                <h4 class="card-header" ng-click="vdo.editCard(card)"><i class="fa fa-pencil" aria-hidden="true"></i> {{card.cardName}}</h4>
+                                <p>
+                                    <small class="small-class">Description : {{card.cardDesc}}</small>
+                                </p>
+                                <a ng-click="vdo.deleteCard(list,$index);$event.stopPropagation();$event.preventDefault()"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                            </div>
                         </ul>
                     </div>
                 </div>
